@@ -1,0 +1,46 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "circleCodes": {
+      "$code": {
+        ".read": "auth != null",
+        ".write": "auth != null && !data.exists()"
+      }
+    },
+    "circles": {
+      "$cid": {
+        ".read": "auth != null && data.child('members').child(auth.uid).exists()",
+        "meta": {
+          ".write": "auth != null && !data.exists()"
+        },
+        "members": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid"
+          }
+        }
+      }
+    },
+    "locations": {
+      "$cid": {
+        ".read": "auth != null && root.child('circles').child($cid).child('members').child(auth.uid).exists()",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid && root.child('circles').child($cid).child('members').child(auth.uid).exists()"
+        }
+      }
+    },
+    "sos": {
+      "$cid": {
+        ".read": "auth != null && root.child('circles').child($cid).child('members').child(auth.uid).exists()",
+        ".indexOn": ["ts"],
+        "$sid": {
+          ".write": "auth != null && root.child('circles').child($cid).child('members').child(auth.uid).exists() && (!data.exists() || data.child('uid').val() === auth.uid)"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "appId": "com.markdave.wernau",
+  "appName": "Wer na U?",
+  "webDir": "www",
+  "plugins": {
+    "LocalNotifications": {
+      "iconColor": "#D9480F"
+    }
+  },
+  "android": {
+    "useLegacyBridge": true
+  }
+}

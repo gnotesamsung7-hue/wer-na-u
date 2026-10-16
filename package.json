@@ -1,0 +1,21 @@
+{
+  "name": "wer-na-u",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Wer na U? - private family location sharing",
+  "scripts": {
+    "vendor": "node scripts/vendor.js"
+  },
+  "dependencies": {
+    "@capacitor-community/background-geolocation": "^1.2.17",
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/device": "^6.0.1",
+    "@capacitor/haptics": "^6.0.1",
+    "@capacitor/local-notifications": "^6.1.0",
+    "leaflet": "1.9.4"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  }
+}

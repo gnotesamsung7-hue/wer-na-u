@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#D9480F">
+<title>Wer na U?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<!-- Loading -->
+<section id="screen-loading" class="screen splash">
+  <div class="logo-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pin" d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3.2" fill="#fff"/></svg></div>
+  <h1 class="wordmark-big">Wer na U?</h1>
+  <p id="loading-msg">Connecting…</p>
+</section>
+
+<!-- Welcome / onboarding -->
+<section id="screen-welcome" class="screen splash" hidden>
+  <div class="splash-top">
+    <div class="logo-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pin" d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3.2" fill="#fff"/></svg></div>
+    <h1 class="wordmark-big">Wer na U?</h1>
+    <p class="tagline">Para alam mo, safe sila.</p>
+  </div>
+  <form id="form-onboard" class="splash-form" autocomplete="off">
+    <label for="in-name">Your name</label>
+    <input id="in-name" maxlength="24" placeholder="e.g. Mark" required>
+
+    <div class="seg" role="tablist">
+      <button type="button" class="seg-btn on" data-mode="create" role="tab" aria-selected="true">Create a family circle</button>
+      <button type="button" class="seg-btn" data-mode="join" role="tab" aria-selected="false">Join with a code</button>
+    </div>
+
+    <div id="field-create">
+      <label for="in-circle">Family circle name</label>
+      <input id="in-circle" maxlength="30" placeholder="e.g. Our Family">
+    </div>
+    <div id="field-join" hidden>
+      <label for="in-code">Invite code</label>
+      <input id="in-code" maxlength="6" placeholder="6 letters" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:.2em">
+    </div>
+
+    <p id="onboard-error" class="form-error" role="alert"></p>
+    <button id="btn-onboard" class="btn-light" type="submit">Create circle</button>
+    <p class="fineprint">Only people you invite can see your location.</p>
+  </form>
+</section>
+
+<!-- Location permission explainer (prominent disclosure) -->
+<section id="screen-permission" class="screen perm" hidden>
+  <div class="perm-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+  <h1>Share your location with your family</h1>
+  <p>Wer na U? collects your location, even when the app is closed or not in use, so the people in your family circle can see where you are, get SOS alerts, and know you got home safe.</p>
+  <p>A notification stays on while sharing is on. You can pause sharing anytime in Settings.</p>
+  <button id="btn-allow" class="btn-dark">Turn on location sharing</button>
+  <button id="btn-skip" class="btn-text">Not now</button>
+</section>
+
+<!-- Main app -->
+<section id="screen-app" class="screen app" hidden>
+  <div id="map" aria-label="Family map"></div>
+
+  <header class="topbar">
+    <div class="wordmark-pill">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="pin" d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3.2" fill="#fff"/></svg>
+      <span>Wer na U?</span>
+    </div>
+    <div class="topbar-actions">
+      <button id="btn-recenter" class="round" aria-label="Show everyone"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
+      <button id="btn-settings" class="round" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </header>
+
+  <div id="sos-banners" aria-live="assertive"></div>
+
+  <div class="sos-wrap">
+    <button id="btn-sos" class="sos" aria-label="SOS: press and hold for 3 seconds to alert your family">
+      <svg class="sos-ring" viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="36"/></svg>
+      <span>SOS</span>
+    </button>
+    <span class="sos-hint">Hold 3s</span>
+  </div>
+
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="sheet-head">
+      <h2 id="circle-name">Family</h2>
+      <span id="circle-count" class="muted"></span>
+    </div>
+    <ul id="member-list" class="members"></ul>
+    <div id="sharing-off" class="notice" hidden>
+      Your location is not being shared.
+      <button id="btn-resume" class="link">Turn on</button>
+    </div>
+  </div>
+</section>
+
+<!-- Settings -->
+<dialog id="dlg-settings" class="dialog">
+  <form method="dialog" class="dialog-body">
+    <h2>Settings</h2>
+    <div class="invite">
+      <span class="muted">Invite code</span>
+      <strong id="invite-code">------</strong>
+      <button type="button" id="btn-copy-code" class="btn-outline">Copy code</button>
+      <p class="muted small">Send this code to family members. They enter it when they open Wer na U? for the first time.</p>
+    </div>
+    <label class="toggle-row">
+      <span>Share my location</span>
+      <input type="checkbox" id="tg-sharing" role="switch">
+    </label>
+    <button type="button" id="btn-leave" class="btn-danger-text">Leave this family circle</button>
+    <button class="btn-dark" value="close">Done</button>
+  </form>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="vendor/leaflet.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
