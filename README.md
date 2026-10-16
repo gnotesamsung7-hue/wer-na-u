@@ -29,6 +29,9 @@ The web API key is meant to be public; the database rules are what keep each fam
 - Background sharing with a persistent notification; pause anytime
 - SOS: hold the red button 3 seconds; everyone with the app running gets an alert and a notification
 - Invite codes and leaving a circle
+- Battery saver: GPS checks every 15 s instead of every second; below 20% battery (or when switched on) it uses Wi-Fi/cell location every minute
+- Low data use: live family updates only stream while the app is open, location is sent only after real movement, and "Use less mobile data" loads fewer map tiles
+- Weak signal: shows a "No signal" banner, queues your newest location and any SOS until signal returns, and can text your SOS location to an emergency number
 
 ## Coming next
 Place alerts (geofences), driving reports, crash detection, and push notifications that reach phones even when the app has been fully closed.

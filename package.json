@@ -4,10 +4,10 @@
   "private": true,
   "description": "Wer na U? - private family location sharing",
   "scripts": {
-    "vendor": "node scripts/vendor.js"
+    "vendor": "node scripts/vendor.js && node scripts/patch-plugin.js"
   },
   "dependencies": {
-    "@capacitor-community/background-geolocation": "^1.2.17",
+    "@capacitor-community/background-geolocation": "1.2.26",
     "@capacitor/android": "^6.1.2",
     "@capacitor/core": "^6.1.2",
     "@capacitor/device": "^6.0.1",
