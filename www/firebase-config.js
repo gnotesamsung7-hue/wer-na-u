@@ -1,11 +1,10 @@
-// Paste your Firebase web app config here
-// (Firebase console > Project settings > Your apps > Web app > SDK setup and configuration > Config).
+// Firebase web app config for the wer-na-u-2d99d project.
 export const firebaseConfig = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://PASTE_PROJECT_ID-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "PASTE_PROJECT_ID",
-  storageBucket: "PASTE_PROJECT_ID.appspot.com",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID"
+  apiKey: "AIzaSyB7hZ4Nd7fomN4wfW1pnK271u7TfHi-bsk",
+  authDomain: "wer-na-u-2d99d.firebaseapp.com",
+  databaseURL: "https://wer-na-u-2d99d-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "wer-na-u-2d99d",
+  storageBucket: "wer-na-u-2d99d.firebasestorage.app",
+  messagingSenderId: "811574132015",
+  appId: "1:811574132015:web:58853ed1542545e69035da"
 };
